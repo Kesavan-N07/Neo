@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeoMobile Store | Premium Phone Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1020;
+      --bg-soft:#11172c;
+      --card:rgba(255,255,255,.08);
+      --card-2:rgba(255,255,255,.12);
+      --border:rgba(255,255,255,.14);
+      --text:#f8fafc;
+      --muted:rgba(248,250,252,.72);
+      --primary:#7c3aed;
+      --primary-2:#4f46e5;
+      --accent:#ec4899;
+      --orange:#f97316;
+      --green:#22c55e;
+      --shadow:0 24px 60px rgba(0,0,0,.28);
+      --shadow-2:0 10px 30px rgba(79,70,229,.20);
+      --radius:24px;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Inter',sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(124,58,237,.18), transparent 22%),
+        radial-gradient(circle at 90% 20%, rgba(236,72,153,.16), transparent 22%),
+        radial-gradient(circle at 50% 100%, rgba(79,70,229,.20), transparent 28%),
+        linear-gradient(180deg, var(--bg) 0%, #0f1528 100%);
+      color:var(--text);
+      overflow-x:hidden;
+      line-height:1.6;
+    }
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    .container{max-width:1280px;margin:0 auto;padding:0 24px}
+    @media (max-width:768px){.container{padding:0 16px}}
+
+    h1,h2,h3,h4{line-height:1.1}
+    h1{font-size:clamp(2.3rem,5vw,5rem);font-weight:900;letter-spacing:-.03em}
+    h2{font-size:clamp(1.9rem,4vw,3.2rem);font-weight:900;letter-spacing:-.02em}
+    h3{font-size:1.3rem;font-weight:800}
+    p{color:var(--muted)}
+
+    .nav-wrap{
+      position:fixed;top:0;left:0;right:0;z-index:1000;
+      background:rgba(10,15,30,.70);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    nav{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:16px 0;
+    }
+    .logo{
+      display:flex;align-items:center;gap:10px;
+      font-weight:900;font-size:1.5rem;color:#fff
+    }
+    .logo-badge{
+      width:38px;height:38px;border-radius:12px;
+      background:linear-gradient(135deg,var(--primary-2),var(--primary),var(--accent));
+      box-shadow:0 8px 22px rgba(124,58,237,.35)
+    }
+    .nav-links{
+      display:flex;list-style:none;gap:28px;align-items:center
+    }
+    .nav-links a{color:rgba(255,255,255,.76);font-weight:600;font-size:.95rem}
+    .nav-links a:hover{color:#fff}
+    .nav-actions{display:flex;gap:12px;align-items:center}
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      min-height:48px;padding:14px 22px;border-radius:14px;
+      font-weight:800;border:1px solid transparent;cursor:pointer;
+      transition:transform .25s ease, box-shadow .25s ease, background .25s ease, border-color .25s ease;
+      gap:8px
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{
+      color:white;
+      background:linear-gradient(135deg,var(--primary-2),var(--primary),var(--accent));
+      box-shadow:0 14px 28px rgba(79,70,229,.28)
+    }
+    .btn-outline{
+      color:#fff;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14)
+    }
+    .btn-outline:hover{background:rgba(255,255,255,.12)}
+    .btn-cta{
+      color:white;background:linear-gradient(135deg,var(--orange),#fb7185);
+      box-shadow:0 14px 28px rgba(249,115,22,.24)
+    }
+    .btn-small{padding:10px 18px;font-size:.92rem}
+    .menu-btn{
+      display:none;background:none;border:none;cursor:pointer;padding:8px
+    }
+    .menu-btn span{
+      width:24px;height:2px;background:#fff;display:block;margin:6px 0;border-radius:2px
+    }
+
+    .hero{
+      position:relative;min-height:100vh;padding:150px 0 90px;overflow:hidden;
+    }
+    .hero::before{
+      content:'';
+      position:absolute;inset:0;
+      background:url('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1800') center/cover;
+      opacity:.16;
+      transform:scale(1.05);
+    }
+    .hero::after{
+      content:'';
+      position:absolute;inset:0;
+      background:linear-gradient(180deg, rgba(11,16,32,.36), rgba(11,16,32,.86));
+    }
+
+    .orb{
+      position:absolute;border-radius:50%;filter:blur(22px);
+      opacity:.6;animation:float3d 10s ease-in-out infinite;
+      will-change:transform, opacity
+    }
+    .orb1{width:220px;height:220px;left:-40px;top:120px;background:rgba(124,58,237,.26)}
+    .orb2{width:300px;height:300px;right:-90px;top:80px;background:rgba(236,72,153,.22);animation-delay:-3s}
+    .orb3{width:160px;height:160px;right:18%;bottom:80px;background:rgba(249,115,22,.18);animation-delay:-6s}
+
+    @keyframes float3d{
+      0%,100%{transform:translate3d(0,0,0) rotate(0deg) scale(1)}
+      50%{transform:translate3d(0,-18px,0) rotate(10deg) scale(1.05)}
+    }
+
+    .hero-inner{
+      position:relative;z-index:1;
+      display:grid;grid-template-columns:1.04fr .96fr;gap:42px;align-items:center
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 14px;border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.88);
+      font-weight:700;font-size:.92rem;
+      margin-bottom:18px
+    }
+    .hero-copy p{
+      margin-top:18px;
+      font-size:1.08rem;max-width:660px
+    }
+    .hero-buttons{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
+    .hero-buttons .btn{min-width:190px}
+
+    .hero-panel{
+      position:relative;
+      border-radius:30px;
+      padding:18px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      backdrop-filter:blur(18px);
+      box-shadow:var(--shadow);
+      transform-style:preserve-3d;
+      animation:panelTilt 8s ease-in-out infinite;
+    }
+    @keyframes panelTilt{
+      0%,100%{transform:perspective(1200px) rotateY(-8deg) rotateX(4deg) translateY(0)}
+      50%{transform:perspective(1200px) rotateY(8deg) rotateX(-4deg) translateY(-10px)}
+    }
+    .hero-panel img{
+      width:100%;aspect-ratio:4/3;object-fit:cover;
+      border-radius:22px;box-shadow:0 18px 34px rgba(0,0,0,.28)
+    }
+
+    .hero-cards{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:16px;margin-top:18px
+    }
+    .glass-card{
+      padding:18px;border-radius:20px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:var(--shadow-2);
+      backdrop-filter:blur(16px);
+      transition:transform .25s ease, background .25s ease
+    }
+    .glass-card:hover{transform:translateY(-6px);background:rgba(255,255,255,.14)}
+    .glass-card h4{font-size:1.02rem;margin-bottom:6px;color:#fff}
+    .glass-card p{font-size:.92rem}
+
+    .stats{
+      position:relative;z-index:1;margin-top:70px;
+      display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px
+    }
+    .stat{
+      border-radius:22px;padding:24px 18px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(14px);
+      box-shadow:var(--shadow-2);
+      text-align:center
+    }
+    .stat .num{font-size:2.2rem;font-weight:900;color:#fff}
+    .stat .label{font-size:.95rem;color:rgba(255,255,255,.74);margin-top:4px}
+
+    .section{padding:100px 0}
+    .section-header{text-align:center;max-width:760px;margin:0 auto 54px}
+    .section-header p{margin-top:12px;font-size:1.03rem}
+    .grid{display:grid;gap:24px}
+    .feature-grid,.product-grid,.testimonial-grid,.blog-grid{
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr))
+    }
+
+    .card{
+      border-radius:24px;padding:26px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:var(--shadow-2);
+      backdrop-filter:blur(14px);
+      transition:transform .25s ease, border-color .25s ease, background .25s ease
+    }
+    .card:hover{
+      transform:translateY(-8px);
+      border-color:rgba(255,255,255,.18);
+      background:rgba(255,255,255,.09)
+    }
+
+    .chip{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 12px;border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      color:rgba(255,255,255,.85);
+      font-size:.9rem;
+      margin-bottom:14px
+    }
+
+    .product{
+      position:relative;overflow:hidden
+    }
+    .product img{
+      width:100%;height:250px;object-fit:cover;border-radius:18px;
+      margin-bottom:16px
+    }
+    .price-row{
+      display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:10px
+    }
+    .price{
+      font-size:1.4rem;font-weight:900;color:#fff
+    }
+    .strike{
+      color:rgba(255,255,255,.55);text-decoration:line-through;font-size:.95rem
+    }
+    .badge{
+      display:inline-flex;padding:8px 12px;border-radius:999px;
+      background:rgba(34,197,94,.16);color:#9ef0b9;
+      border:1px solid rgba(34,197,94,.22);font-weight:700;font-size:.85rem
+    }
+
+    .comparison{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px
+    }
+    .spec{
+      padding:20px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09)
+    }
+
+    .cta{
+      text-align:center;padding:100px 0 110px;
+    }
+    .cta-box{
+      max-width:960px;margin:0 auto;
+      padding:42px 28px;border-radius:30px;
+      background:
+        radial-gradient(circle at top left, rgba(124,58,237,.24), transparent 30%),
+        radial-gradient(circle at top right, rgba(236,72,153,.22), transparent 30%),
+        rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(18px);
+    }
+
+    footer{
+      padding:56px 0 30px;border-top:1px solid rgba(255,255,255,.08);
+      background:rgba(5,10,20,.72)
+    }
+    .footer-grid{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:28px;margin-bottom:28px
+    }
+    .footer-grid h4{margin-bottom:14px;color:#fff}
+    .footer-grid ul{list-style:none}
+    .footer-grid li{margin-bottom:10px}
+    .footer-grid a{color:rgba(255,255,255,.68)}
+    .footer-grid a:hover{color:#fff}
+    .footer-bottom{
+      border-top:1px solid rgba(255,255,255,.08);
+      padding-top:22px;text-align:center
+    }
+
+    @media (max-width: 980px){
+      .menu-btn{display:block}
+      .nav-links{
+        position:fixed;top:72px;left:0;right:0;display:none;
+        flex-direction:column;gap:16px;background:rgba(10,15,30,.96);
+        padding:22px;border-bottom:1px solid rgba(255,255,255,.08)
+      }
+      .nav-links.active{display:flex}
+      .nav-actions{display:none}
+      .hero-inner{grid-template-columns:1fr;gap:28px}
+      .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+
+    @media (max-width: 768px){
+      .section{padding:78px 0}
+      .hero{padding:132px 0 70px;min-height:auto}
+      .hero-buttons{flex-direction:column}
+      .hero-buttons .btn{width:100%}
+      .hero-cards{grid-template-columns:1fr}
+      .stats{grid-template-columns:1fr}
+      .hero-panel{animation:none}
+      .orb{opacity:.25}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
+      *,*::before,*::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav-wrap">
+    <div class="container">
+      <nav>
+        <a class="logo" href="#">
+          <span class="logo-badge"></span>
+          NeoMobile
+        </a>
+
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#featured">Phones</a></li>
+          <li><a href="#offers">Offers</a></li>
+          <li><a href="#compare">Compare</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#demo">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="#login" class="btn btn-outline btn-small">Login</a>
+          <a href="#demo" class="btn btn-primary btn-small">Shop Now</a>
+        </div>
+
+        <button class="menu-btn" onclick="toggleMenu()" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="eyebrow">📱 Premium Mobile Store • Latest Phones • Best Offers</div>
+          <h1>Find Your Next Perfect Phone</h1>
+          <p>
+            Shop the latest smartphones, premium accessories, EMI options, exchange deals, and quick delivery.
+            A clean mobile store experience built for speed, trust, and conversions.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#featured" class="btn btn-cta">🔥 Explore Phones</a>
+            <a href="#offers" class="btn btn-outline">🎁 View Offers</a>
+          </div>
+
+          <div class="hero-features" style="margin-top:26px;">
+            <div class="chip">✓ Free Delivery</div>
+            <div class="chip">✓ Exchange Bonus</div>
+            <div class="chip">✓ EMI Available</div>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1400" alt="Premium mobile phones display">
+          <div class="hero-cards">
+            <div class="glass-card">
+              <h4>Best Brands</h4>
+              <p>Apple, Samsung, OnePlus, Xiaomi & more.</p>
+            </div>
+            <div class="glass-card">
+              <h4>Fast Support</h4>
+              <p>Chat, warranty, and in-store pickup help.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="num counter" data-target="500">0</div>
+          <div class="label">Phone Models</div>
+        </div>
+        <div class="stat">
+          <div class="num counter" data-target="99">0</div>
+          <div class="label">Customer Satisfaction %</div>
+        </div>
+        <div class="stat">
+          <div class="num counter" data-target="24">0</div>
+          <div class="label">Hour Delivery Support</div>
+        </div>
+        <div class="stat">
+          <div class="num counter" data-target="100">0</div>
+          <div class="label">Exchange Bonus %</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="featured">
+    <div class="container">
+      <div class="section-header">
+        <h2>Featured Smartphones</h2>
+        <p>Top picks for performance, camera quality, battery life, and value for money.</p>
+      </div>
+
+      <div class="grid product-grid">
+        <div class="card product">
+          <div class="badge">Best Seller</div>
+          <img src="https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=1200" alt="Premium smartphone">
+          <h3>Galaxy X Pro</h3>
+          <p>120Hz display, pro camera, and all-day battery backup.</p>
+          <div class="price-row">
+            <div>
+              <div class="price">₹79,999</div>
+              <div class="strike">₹89,999</div>
+            </div>
+            <a class="btn btn-primary btn-small" href="#">Buy Now</a>
+          </div>
+        </div>
+
+        <div class="card product">
+          <div class="badge" style="background:rgba(249,115,22,.16);color:#ffd1b0;border-color:rgba(249,115,22,.22);">New Launch</div>
+          <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=1200" alt="Modern mobile phone">
+          <h3>iPhone Ultra</h3>
+          <p>Premium design, powerful chip, and stunning camera performance.</p>
+          <div class="price-row">
+            <div>
+              <div class="price">₹1,19,999</div>
+              <div class="strike">₹1,29,999</div>
+            </div>
+            <a class="btn btn-primary btn-small" href="#">Buy Now</a>
+          </div>
+        </div>
+
+        <div class="card product">
+          <div class="badge" style="background:rgba(34,197,94,.16);color:#9ef0b9;border-color:rgba(34,197,94,.22);">Value Deal</div>
+          <img src="https://images.unsplash.com/photo-1580910051074-3eb694886505?w=1200" alt="Android phone">
+          <h3>OnePlus Neo</h3>
+          <p>Fast charging, smooth performance, and clean Android experience.</p>
+          <div class="price-row">
+            <div>
+              <div class="price">₹42,999</div>
+              <div class="strike">₹47,999</div>
+            </div>
+            <a class="btn btn-primary btn-small" href="#">Buy Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="offers">
+    <div class="container">
+      <div class="section-header">
+        <h2>Hot Offers & Benefits</h2>
+        <p>Get extra savings with exchange deals, no-cost EMI, and accessory bundles.</p>
+      </div>
+
+      <div class="grid feature-grid">
+        <div class="card">
+          <div class="card-icon">🎁</div>
+          <h3>Festival Offers</h3>
+          <p>Special discounts on selected smartphones and accessories for limited time.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔁</div>
+          <h3>Exchange Bonus</h3>
+          <p>Trade in your old phone and get instant exchange value at checkout.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">💳</div>
+          <h3>No-Cost EMI</h3>
+          <p>Buy now and pay monthly with flexible EMI plans from trusted partners.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🚚</div>
+          <h3>Fast Delivery</h3>
+          <p>Quick dispatch with secure packaging and doorstep delivery support.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="compare">
+    <div class="container">
+      <div class="section-header">
+        <h2>Quick Compare</h2>
+        <p>Choose the right phone by comparing screen, camera, battery, and price at a glance.</p>
+      </div>
+
+      <div class="comparison">
+        <div class="spec"><h3>Display</h3><p>6.7" AMOLED, 120Hz</p></div>
+        <div class="spec"><h3>Camera</h3><p>50MP OIS Pro Lens</p></div>
+        <div class="spec"><h3>Battery</h3><p>5000mAh, Fast Charge</p></div>
+        <div class="spec"><h3>Storage</h3><p>128GB / 256GB / 512GB</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="reviews">
+    <div class="container">
+      <div class="section-header">
+        <h2>Trusted by Buyers</h2>
+        <p>Simple, clean testimonials that help shoppers feel confident before they buy.</p>
+      </div>
+
+      <div class="grid testimonial-grid">
+        <div class="card">
+          <span class="chip">★★★★★</span>
+          <p style="font-style:italic;margin-bottom:18px;">"Great product selection, easy checkout, and the delivery was very fast."</p>
+          <h3 style="font-size:1rem;color:#fff;margin-bottom:4px;">Arun</h3>
+          <p style="font-size:.92rem;">Bengaluru</p>
+        </div>
+
+        <div class="card">
+          <span class="chip">★★★★★</span>
+          <p style="font-style:italic;margin-bottom:18px;">"The exchange offer made it very affordable to upgrade my old phone."</p>
+          <h3 style="font-size:1rem;color:#fff;margin-bottom:4px;">Priya</h3>
+          <p style="font-size:.92rem;">Chennai</p>
+        </div>
+
+        <div class="card">
+          <span class="chip">★★★★★</span>
+          <p style="font-style:italic;margin-bottom:18px;">"Excellent UI on mobile. Buttons are big and the page is easy to navigate."</p>
+          <h3 style="font-size:1rem;color:#fff;margin-bottom:4px;">Rahul</h3>
+          <p style="font-size:.92rem;">Hyderabad</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="demo">
+    <div class="container">
+      <div class="cta-box">
+        <h2>Ready to Buy Your Next Phone?</h2>
+        <p style="max-width:680px;margin:14px auto 26px;">
+          Browse the latest phones, compare features, and shop with confidence from a premium mobile store experience.
+        </p>
+        <div class="hero-buttons" style="justify-content:center;">
+          <a href="#" class="btn btn-cta">🛒 Shop Now</a>
+          <a href="#" class="btn btn-outline">📞 Call Store</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4>NeoMobile</h4>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Store Locator</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="#">Smartphones</a></li>
+            <li><a href="#">Accessories</a></li>
+            <li><a href="#">Wearables</a></li>
+            <li><a href="#">Tablets</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Support</h4>
+          <ul>
+            <li><a href="#">Warranty</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">Shipping</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">GDPR</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 NeoMobile. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu(){
+      document.getElementById('navLinks').classList.toggle('active');
+    }
+
+    document.querySelectorAll('.nav-links a').forEach(link=>{
+      link.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('active'));
+    });
+
+    const counters = document.querySelectorAll('.counter');
+    const animateCounter = el => {
+      const target = +el.getAttribute('data-target');
+      let count = 0;
+      const step = Math.max(1, Math.ceil(target / 60));
+      const tick = () => {
+        count += step;
+        if(count < target){
+          el.textContent = count;
+          requestAnimationFrame(tick);
+        } else {
+          el.textContent = target;
+        }
+      };
+      tick();
+    };
+
+    const observer = new IntersectionObserver((entries, obs)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          animateCounter(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.5});
+
+    counters.forEach(c=>observer.observe(c));
+  </script>
+</body>
+</html>
